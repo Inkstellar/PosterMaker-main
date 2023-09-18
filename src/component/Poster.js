@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { toPng, toBlob } from 'html-to-image';
+import { List, ListItem ,Grid} from '@mui/material';
 
 const Poster = React.forwardRef((props, ref) => {
   const elementRef = React.useRef();
@@ -41,6 +42,7 @@ const Poster = React.forwardRef((props, ref) => {
       className="poster-wrapper"
       flexDirection={'column'}
       sx={{
+        width:'768px',
         maxWidth: '768px',
         padding: '0 16px 16px',
         gap: 2,
@@ -49,19 +51,46 @@ const Poster = React.forwardRef((props, ref) => {
           'linear-gradient(to bottom,#fff,96px,#fff,97px,#bfeaec, #fffef9) ',
       }}
     >
-      {page.map((item) => RenderElements(item))}
+
+      {page.map((item, keyindex) => RenderElements(item, keyindex))}
     </Stack>
   );
 });
 
 export default Poster;
 
-function RenderElements(item) {
+function RenderElements(item, keyindex) {
   if (item.obj === 'text') {
     return (
-      <Typography id={item.id} key={item.id} variant={item.variant}>
+      <Typography id={item.id} key={keyindex} variant={item.variant}>
         {item.text}
       </Typography>
+    );
+  }
+  if (item.obj === 'text columns') {
+    let temp = item.text.split('//');
+    return (
+      <Stack id={item.id} key={keyindex} flexDirection={'row'}>
+        {temp.map((listItem,index)=>{
+          return <Stack key={index} flexGrow={1} width={'30%'}>
+        <Typography variant={item.variant}>
+        {listItem}
+      </Typography>
+      </Stack>
+        })}
+        
+      </Stack>
+      
+    );
+  }
+  if (item.obj === 'list') {
+    let temp = item.text.split('//')
+    return (
+      <List key={keyindex} sx={{ padding: '16px 24px' }}>
+        {temp.map((listItem, index) => <ListItem key={index} sx={{ display: 'list-item', listStyle: 'disclosure-closed', padding: '0 16px' }}>
+          <Typography variant={item.variant} >{listItem}</Typography></ListItem>)}
+      </List>
+
     );
   }
   if (item.obj === 'header') {
@@ -119,13 +148,14 @@ function RenderElements(item) {
           display: 'flex',
           flexDirection: item.order,
           gap: 2,
+          borderBottom: '1px solid lightblue',
+          paddingBottom: '16px'
         }}
       >
         <Typography
-          sx={{ textAlign: 'justify' }}
           id={item.id}
-          variant={item.variant}
-          sx={{ flexGrow: 1, textAlign: 'left' }}
+          variant="h6"
+          sx={{ textAlign: 'justify', flexGrow: 1, textAlign: 'left' }}
         >
           {item.text}
         </Typography>

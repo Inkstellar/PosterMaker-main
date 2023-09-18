@@ -18,7 +18,7 @@ const dataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addItem, (state, action) => {
-        state.data = [...state.data, action.payload];
+         state.data = [...state.data, action.payload];
       })
       .addCase(moveUp, (state, action) => {
         let index = state.data.findIndex((item) => item.id === action.payload);

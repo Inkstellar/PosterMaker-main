@@ -11,13 +11,14 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "firebase": "^10.3.1",
-    "firebase-tools": "^12.5.3",
     "html-to-image": "^1.11.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.4",
     "react-redux": "8.1.2",
     "redux": "5.0.0-beta.0",
+    "serve": "^14.2.1",
+    "surge": "^0.23.1",
     "uuid": "9.0.0"
   },
   "scripts": {
@@ -26,9 +27,12 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "login": "firebase login",
-    "fireinit": "firebase init"
+    "fireinit": "firebase init",
+    "surge": "surge --domain postermaker.surge.sh",
+    "serve": "serve -s build"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "react-scripts": "latest"
   },
   "browserslist": {

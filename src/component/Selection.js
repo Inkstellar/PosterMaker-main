@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import DialogContent from '@mui/material/DialogContent';
+import { Typography } from '@mui/material';
 
 const Selection = React.forwardRef((props, ref) => {
   const selectRef = React.useRef();
@@ -18,10 +19,11 @@ const Selection = React.forwardRef((props, ref) => {
   const [inputObject, setinputObject] = React.useState('');
 
   React.useImperativeHandle(ref, () => ({
-    clearSelection: () => {
+    addNewItem: () => {
       if (inputObject !== '') {
         openDialog();
-      } else dispatch(addItem({ id: uuidv4(), obj: inputObject }));
+      } else {}
+      // dispatch(addItem({ id: uuidv4(), obj: inputObject }));
     },
   }));
 
@@ -73,8 +75,8 @@ const CustomDialog = React.forwardRef((props, ref) => {
   const [galleryPreview, setGalleryPreview] = React.useState([]);
   const [preview, setPreview] = React.useState();
   const customDialogRef = React.useRef();
-  const [text, setText] = React.useState('');
-  const [variant, setVariant] = React.useState('h4');
+  const [text, setText] = React.useState();
+  const [variant, setVariant] = React.useState();
   const [order, setOrder] = React.useState('row');
   React.useImperativeHandle(ref, () => ({
     openDialog: (itype) => {
@@ -97,7 +99,31 @@ const CustomDialog = React.forwardRef((props, ref) => {
       dispatch(addItem({ id: newId(), obj: inputObject, path: preview }));
       setOpen(false);
     }
-    if (inputObject === 'text') {
+    if (inputObject === 'text'&&text!==undefined) {
+      console.log(text)
+      dispatch(
+        addItem({
+          id: newId(),
+          obj: inputObject,
+          text: text,
+          variant: variant,
+        })
+      );
+      setOpen(false);
+    }
+    if (inputObject === 'text columns'&&text!==undefined) {
+      console.log(text)
+      dispatch(
+        addItem({
+          id: newId(),
+          obj: inputObject,
+          text: text,
+          variant: variant,
+        })
+      );
+      setOpen(false);
+    }
+    if (inputObject === 'list'&&text!==undefined) {
       dispatch(
         addItem({
           id: newId(),
@@ -203,7 +229,7 @@ const CustomDialog = React.forwardRef((props, ref) => {
             {selectedFile && <img src={preview} height="200" />}
             <input
               type="file"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/svg"
               onChange={(e) => {
                 setSelectedFile(e.target.files[0]);
               }}
@@ -216,7 +242,7 @@ const CustomDialog = React.forwardRef((props, ref) => {
             <input
               type="file"
               multiple
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/svg"
               onChange={(e) => {
                 console.log(e.target.files, e.target.files.length);
                 setgalleryLinks(e.target.files);
@@ -230,7 +256,7 @@ const CustomDialog = React.forwardRef((props, ref) => {
             <input
               type="file"
               multiple
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/svg"
               onChange={(e) => {
                 setSelectedFile(e.target.files[0]);
               }}
@@ -243,6 +269,28 @@ const CustomDialog = React.forwardRef((props, ref) => {
             {selectFontVariant}
             <input
               type="text"
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+            />{' '}
+          </>
+        )}
+        {inputObject === 'text columns' && (
+          <>
+            {'Enter // after each item'}
+            {selectFontVariant}
+            <textarea
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+            />{' '}
+          </>
+        )}
+        {inputObject === 'list' && (
+          <>
+            <InputLabel>Enter // after each point</InputLabel>
+            {selectFontVariant}
+            <textarea
               onChange={(e) => {
                 setText(e.target.value);
               }}
@@ -262,7 +310,7 @@ const CustomDialog = React.forwardRef((props, ref) => {
             {selectedFile && <img src={preview} height="200" />}
             <input
               type="file"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/svg"
               onChange={(e) => {
                 setSelectedFile(e.target.files[0]);
               }}

@@ -9,13 +9,13 @@ import Item from './Item';
 import StackItems from './StackItems';
 import Stack from '@mui/material/Stack';
 import Poster from './Poster';
-const inputType = ['header', 'text', 'image', 'gallery', 'multi type'];
+const inputType = ['header', 'text', 'list', 'text columns', 'image', 'gallery', 'multi type'];
 
 function Layout() {
   const inputRef = React.useRef();
   const posterRef = React.useRef();
   const handleClick = () => {
-    inputRef.current.clearSelection();
+    inputRef.current.addNewItem();
   };
   const downloadImage = () => {
     posterRef.current.download();
@@ -23,12 +23,16 @@ function Layout() {
   return (
     <Box sx={{ flexGrow: 1, height: '98vh' }}>
       <Grid container spacing={2} sx={{ height: '100%' }}>
-        <Grid sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <Grid sx={{ flexGrow: 1, textAlign: 'center', display: 'flex',alignItems: 'center',flexDirection:'column' }}>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'end',
+              width:'100%',
               marginBottom: '16px',
+              background: '#fff',
+              borderRadius: '4px',
+              boxShadow: '0 1px 1px rgba(0,0,0,0.3)'
             }}
           >
             <Button variant="text" onClick={downloadImage}>
@@ -47,6 +51,7 @@ function Layout() {
                   Add asset
                 </Button>
               </Grid>
+
             </Stack>
           </Item>
         </Grid>
